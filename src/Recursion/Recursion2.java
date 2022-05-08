@@ -13,9 +13,9 @@ public class Recursion2 {
         if(arg > 5) {
             System.out.println("end : "+arg);
             return arg;
+        } else {
+            res = otherSums(arg+1);
         }
-
-        res = otherSums(arg+1);
 
         System.out.println("out : "+arg);
         return res;
