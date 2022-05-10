@@ -3,10 +3,10 @@ package Recursion;
 public class Recursion2 {
 
     public static void main(String[] args) {
-        System.out.println("otherSums : "+otherSums(1));
+        System.out.println("otherSums : "+ sumMethod(1));
     }
 
-    public static int otherSums(int arg) {
+    public static int sumMethod(int arg) {
         int res = 0;
         System.out.println("in :  "+arg);
 
@@ -14,7 +14,7 @@ public class Recursion2 {
             System.out.println("end : "+arg);
             return arg;
         } else {
-            res = otherSums(arg+1);
+            res = sumMethod(arg+1);
         }
 
         System.out.println("out : "+arg);
