@@ -11,10 +11,15 @@ public class Fibonacci {
         int[] arr = new int[maxCount];
         arr[0] = 1;
         arr[1] = 1;
+
+        System.out.print("runUseForLoop : ");
         System.out.print(String.format("%d %d ", arr[0], arr[1]));
+        runUseForLoop(arr, maxCount);
 
-//        runUseForLoop(arr, maxCount);
+        System.out.println();
 
+        System.out.print("runUseRecursion : ");
+        System.out.print(String.format("%d %d ", arr[0], arr[1]));
         runUseRecursion(arr, maxCount, 2);
     }
 
@@ -33,8 +38,6 @@ public class Fibonacci {
             arr[i] = arr[i-2] + arr[i-1];
             System.out.print(String.format("%d ", arr[i]));
         }
-
-
     }
 
 
