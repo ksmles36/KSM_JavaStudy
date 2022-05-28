@@ -1,33 +1,35 @@
 package recursion;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class FilePathNavigation {
 
     public static void main(String[] args) {
 
-//        String path = System.getProperty("user.dir");
-//        File file = new File(path);
-//        String[] strings = file.list();
-//        for (String str : strings) {
-//            System.out.println("str = " + str);
-//        }
+        Scanner sc = new Scanner(System.in);
+        String inputRoute = sc.nextLine();
 
-//        String filePath = "../ProgramFiles";
-//        File dir = new File(filePath);
-//        String path = dir.getPath();
-//        System.out.println("path = " + path);
+        File file = new File(inputRoute);
 
-        File dir = new File("C:");
-        File files[] = dir.listFiles();
+        loop(inputRoute, file.list());
+    }
 
-        for (int i = 0; i < files.length; i++) {
-            System.out.println("file: " + files[i]);
+    private static void loop(String inputRoute, String[] list) {
+        for (String name : list) {
+            File file = getRoute(inputRoute, name);
+
+            if (file.isDirectory()) {
+                System.out.println("폴더입니다 : " + name);
+                System.out.println("다음 폴더로 진입합니다. : " + file.toString());
+                loop(file.toString(), file.list());
+            }
+            System.out.println("파일입니다 : " + name);
         }
+    }
 
-
-
-
+    private static File getRoute(String inputRoute, String name) {
+        return new File(inputRoute + File.separator + name);
     }
 
 }
