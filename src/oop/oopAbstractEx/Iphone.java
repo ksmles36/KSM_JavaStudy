@@ -1,4 +1,4 @@
-package oopAbstractEx;
+package oop.oopAbstractEx;
 
 public class Iphone extends SmartPhone{
 

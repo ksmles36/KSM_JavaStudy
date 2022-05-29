@@ -1,4 +1,4 @@
-package oopAbstractEx;
+package oop.oopAbstractEx;
 
 public abstract class SmartPhone {
 
