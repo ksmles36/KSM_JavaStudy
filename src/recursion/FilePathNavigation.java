@@ -1,6 +1,8 @@
 package recursion;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FilePathNavigation {
@@ -12,17 +14,25 @@ public class FilePathNavigation {
 
         File file = new File(inputRoute);
 
-        loop(inputRoute, file.list());
+        List<String> stringList = new ArrayList<>();
+
+        loop(inputRoute, file, stringList);
+
+        for (String s : stringList) {
+            System.out.println("폴더이름 = " + s);
+        }
+
     }
 
-    private static void loop(String inputRoute, String[] list) {
-        for (String name : list) {
-            File file = getRoute(inputRoute, name);
+    private static void loop(String inputRoute, File file, List<String> stringList) {
+        for (String name : file.list()) {
+            File fileOne = getRoute(inputRoute, name);
 
-            if (file.isDirectory()) {
-                System.out.println("폴더입니다 : " + name);
-                System.out.println("다음 폴더로 진입합니다. : " + file.toString());
-                loop(file.toString(), file.list());
+            if (fileOne.isDirectory()) {
+//                System.out.println("폴더입니다 : " + name);
+                stringList.add(name);
+//                System.out.println("다음 폴더로 진입합니다. : " + fileOne.toString());
+                loop(fileOne.toString(), fileOne, stringList);
             }
             System.out.println("파일입니다 : " + name);
         }
@@ -31,5 +41,4 @@ public class FilePathNavigation {
     private static File getRoute(String inputRoute, String name) {
         return new File(inputRoute + File.separator + name);
     }
-
 }
