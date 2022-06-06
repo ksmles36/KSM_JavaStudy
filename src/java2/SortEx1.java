@@ -13,8 +13,8 @@ public class SortEx1 {
 
         int[] sortedArr = sortArr(arr100);
 
-        for (int i : sortedArr)
-            System.out.println("i = " + i);
+        for(int i=0; i<100; i++)
+            System.out.println(String.format("arr[%d] = %d", i, sortedArr[i]));
     }
 
     private static int[] sortArr(int[] arr) {
