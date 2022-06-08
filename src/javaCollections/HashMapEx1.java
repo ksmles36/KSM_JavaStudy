@@ -22,6 +22,8 @@ public class HashMapEx1 {
     }
 
     private static void duplicateEx(HashMap<String, Integer> map) {
+        System.out.println();
+
         map.put("자바", 95);
         System.out.println("duplicateEx map = " + map);
         //중복하여 값을 넣으면 덮어씌우게 된다.
@@ -33,6 +35,8 @@ public class HashMapEx1 {
     }
 
     private static void removeEx(HashMap<String, Integer> map) {
+        System.out.println();
+
         map.remove("자료구조");
         System.out.println("removeEx map = " + map);
         System.out.println("removeEx " + map.remove("자료구조"));
@@ -41,6 +45,8 @@ public class HashMapEx1 {
     }
 
     private static void foreachEx(HashMap<String, Integer> map) {
+        System.out.println();
+
         System.out.print("foreachEx ");
         map.forEach((k, v) -> {
             System.out.print(k + " ");
