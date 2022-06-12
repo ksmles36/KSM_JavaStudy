@@ -16,6 +16,8 @@ public class Main {
 
         System.out.println();
 
+        System.out.println("getSize() = " + linkedList.getSize());
+
         linkedList.remove(2);
         linkedList.show();
 

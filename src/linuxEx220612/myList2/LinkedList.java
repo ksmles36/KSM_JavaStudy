@@ -1,7 +1,5 @@
 package linuxEx220612.myList2;
 
-import linuxEx220612.myList1.MyLinkedListSample;
-
 public class LinkedList {
 
     private Node head = null;
