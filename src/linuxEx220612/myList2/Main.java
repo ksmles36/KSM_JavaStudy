@@ -9,8 +9,19 @@ public class Main {
         linkedList.add(5);
         linkedList.add(6);
         linkedList.add(7);
+        linkedList.add(8);
+        linkedList.add(9);
 
         linkedList.show();
+
+        System.out.println();
+
+        linkedList.remove(2);
+        linkedList.show();
+
+        System.out.println();
+
+        System.out.println("getSize() = " + linkedList.getSize());
 
     }
 
