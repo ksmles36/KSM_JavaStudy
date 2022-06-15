@@ -2,21 +2,29 @@ package linuxEx220612.myList3;
 
 public class Node {
 
-    int value;
-    Node next = null;
-    Node cur = new Node(3);
+    String data = null;
+    Node next;
 
-    public Node(int value) {
-        this.value = value;
+    public Node(String data) {
+        this.data = data;
     }
 
-    public void add(int value) {
-        this.value = value;
-        this.next = new Node(value);
+    public void add(String val) {
+        if (data == null) {
+            data = val;
+        } else {
+            next = new Node(val);
+        }
     }
 
     public void show() {
-        System.out.println(this.cur.value);
-        this.cur = this.next;
+        Node cur = null;
+        if (cur.next == null) {
+            System.out.println("값이 없습니다.");
+        }else{
+            System.out.println(data);
+
+        }
+
     }
 }
