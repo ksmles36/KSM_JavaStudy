@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 
 public class EchoServer {
     int servicePort = 0;
@@ -18,9 +19,58 @@ public class EchoServer {
         Socket clientSocket = null;
         public EchoThread(Socket clientSocket) {
             this.clientSocket = clientSocket;
+            try {
+                this.clientSocket.setSoTimeout(10);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         public void run() {
+            int charData=0;
+
+            try (PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true)) {
+                for (;;) {
+                    ArrayList<String> readData = new ArrayList<String>();
+
+                    try {
+                        for (;(charData=clientSocket.getInputStream().read()) != -1;) {
+                            if (charData == 0) break;
+                            readData.add(charData+"");
+                        }
+                    }
+                    catch (SocketTimeoutException e) {}
+
+                    if (charData == -1) {
+                        System.out.println("client socket closed..");
+                        clientSocket.close();
+                        return;
+                    }
+
+                    if (readData.size() < 1) continue;
+
+                    byte[] readBytes = new byte[readData.size()];
+                    for (int i=0;i<readBytes.length;i++) {
+                        int charValue = Integer.parseInt((String)readData.get(i));
+                        readBytes[i] = (byte)charValue;
+                    }
+
+                    String recvStr = new String(readBytes);
+
+                    if (recvStr.trim().equalsIgnoreCase("exit")) break;
+                    System.out.println(String.format("recv: [%s]", recvStr));
+                    out.println(recvStr);
+                }
+
+                clientSocket.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void run2() {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true)) {
                 String input;
@@ -36,7 +86,6 @@ public class EchoServer {
             catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -72,6 +121,7 @@ public class EchoServer {
 
     public static void main(String[] args) {
         new EchoServer(8000, 1024).listen().accept();
-
     }
 }
+
+
