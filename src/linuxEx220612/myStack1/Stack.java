@@ -3,17 +3,17 @@ package linuxEx220612.myStack1;
 public class Stack {
 
     int top;
-    int size;
+    int maxSize;
     String[] data;
 
-    public Stack(int size) {
-        this.size = size;
-        data = new String[size];
+    public Stack(int maxSize) {
+        this.maxSize = maxSize;
+        data = new String[maxSize];
         top = -1;
     }
 
     public boolean push(String item) {
-        if (top >= size - 1) {
+        if (top >= maxSize - 1) {
             return false;
         }
         this.top += 1;
@@ -33,5 +33,9 @@ public class Stack {
 
     public void peek() {
         System.out.println("peek data = " + data[top]);
+    }
+
+    public int currentSize() {
+        return top + 1;
     }
 }

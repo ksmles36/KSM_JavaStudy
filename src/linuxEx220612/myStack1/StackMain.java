@@ -13,6 +13,8 @@ public class StackMain {
         System.out.println(stack.push("5"));
         System.out.println(stack.push("6"));
 
+        System.out.println("stack.currentSize() : " + stack.currentSize());
+
         System.out.println(stack.pop());
         System.out.println(stack.pop());
         System.out.println(stack.pop());
@@ -20,6 +22,7 @@ public class StackMain {
         System.out.println(stack.pop());
         System.out.println(stack.pop());
 
+        System.out.println("stack.currentSize() : " + stack.currentSize());
     }
 
 }
