@@ -10,8 +10,12 @@ public class EchoClient {
 
     public static void main(String[] args) {
 
+        connectEchoServer("localhost", 8000);
+    }
+
+    private static void connectEchoServer(String host, int port) {
         try {
-            Socket clientSocket = new Socket("localhost", 8000);
+            Socket clientSocket = new Socket(host, port);
             System.out.println("서버에 연결됨");
 
             PrintWriter pw = new PrintWriter(clientSocket.getOutputStream());
@@ -22,8 +26,9 @@ public class EchoClient {
             while(true){
                 System.out.print("to Server : ");
                 String inputData = sc.nextLine();
-                if(inputData.equalsIgnoreCase("exit")) {
+                if(inputData.trim().equalsIgnoreCase("exit")) {
                     clientSocket.close();
+                    System.out.println("서버 연결 종료");
                     break;
                 }
 
@@ -35,8 +40,6 @@ public class EchoClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 }
