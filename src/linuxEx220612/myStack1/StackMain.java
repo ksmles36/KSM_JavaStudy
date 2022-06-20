@@ -6,25 +6,19 @@ public class StackMain {
 
         Stack stack = new Stack(5);
 
-        stack.push("1");
-        stack.push("2");
-        stack.push("3");
-        stack.push("4");
-        stack.push("5");
+        System.out.println(stack.push("1"));
+        System.out.println(stack.push("2"));
+        System.out.println(stack.push("3"));
+        System.out.println(stack.push("4"));
+        System.out.println(stack.push("5"));
+        System.out.println(stack.push("6"));
 
-        stack.peek();
-
-        stack.pop();
-        stack.peek();
-
-        stack.pop();
-        stack.peek();
-
-        stack.push("6");
-        stack.peek();
-
-        stack.pop();
-        stack.peek();
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
 
     }
 
