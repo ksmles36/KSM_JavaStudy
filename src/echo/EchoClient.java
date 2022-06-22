@@ -23,8 +23,7 @@ public class EchoClient {
 
             Scanner sc = new Scanner(System.in);
 
-            ByteBuffer sendByteBuffer;
-            ByteBuffer receiveByteBuffer;
+            ByteBuffer byteBuffer;
             Charset charset = Charset.forName("UTF-8");
 
             while(true){
@@ -37,14 +36,14 @@ public class EchoClient {
                     break;
                 }
 
-                sendByteBuffer = charset.encode(inputData);
-                clientSocket.write(sendByteBuffer);
+                byteBuffer = charset.encode(inputData);
+                clientSocket.write(byteBuffer);
 
-                receiveByteBuffer = ByteBuffer.allocate(1024);
-                clientSocket.read(receiveByteBuffer);
-                receiveByteBuffer.flip();
+                byteBuffer = ByteBuffer.allocate(1024);
+                clientSocket.read(byteBuffer);
+                byteBuffer.flip();
 
-                String receiveStr = charset.decode((receiveByteBuffer)).toString();
+                String receiveStr = charset.decode((byteBuffer)).toString();
 
                 System.out.println("from Server : " + receiveStr);
             }
