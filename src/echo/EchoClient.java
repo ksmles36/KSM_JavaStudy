@@ -16,9 +16,9 @@ public class EchoClient {
 
     private static void connectEchoServer(String host, int port) {
         try {
-            SocketChannel clientSocket = SocketChannel.open();
-            clientSocket.configureBlocking(true);
-            clientSocket.connect(new InetSocketAddress(host, port));
+            SocketChannel channel = SocketChannel.open();
+            channel.configureBlocking(true);
+            channel.connect(new InetSocketAddress(host, port));
             System.out.println("서버에 연결됨");
 
             Scanner sc = new Scanner(System.in);
@@ -31,16 +31,16 @@ public class EchoClient {
                 String inputData = sc.nextLine();
 
                 if(inputData.trim().equalsIgnoreCase("exit")) {
-                    clientSocket.close();
+                    channel.close();
                     System.out.println("서버 연결 종료");
                     break;
                 }
 
                 byteBuffer = charset.encode(inputData);
-                clientSocket.write(byteBuffer);
+                channel.write(byteBuffer);
 
-                byteBuffer = ByteBuffer.allocate(1024);
-                clientSocket.read(byteBuffer);
+                byteBuffer = ByteBuffer.allocate(128);
+                channel.read(byteBuffer);
                 byteBuffer.flip();
 
                 String receiveStr = charset.decode((byteBuffer)).toString();
