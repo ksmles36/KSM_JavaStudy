@@ -1,4 +1,4 @@
-package echo;
+package echo.bind;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -6,7 +6,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-public class EchoClient {
+public class EchoClientBind {
 
     public static void main(String[] args) {
 
@@ -17,7 +17,7 @@ public class EchoClient {
     private static void connectEchoServer(String host, int port) {
         try {
             SocketChannel channel = SocketChannel.open();
-            channel.configureBlocking(true);
+            channel.configureBlocking(true);  //논블로킹 설정
             channel.connect(new InetSocketAddress(host, port));
             System.out.println("서버에 연결됨");
 

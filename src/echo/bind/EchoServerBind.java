@@ -1,4 +1,4 @@
-package echo;
+package echo.bind;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-public class EchoServer {
+public class EchoServerBind {
     int servicePort = 0;
     int backlog = 128;
 
@@ -69,12 +69,12 @@ public class EchoServer {
         }
     }
 
-    public EchoServer(int port, int backlog) {
+    public EchoServerBind(int port, int backlog) {
         this.servicePort = port;
         this.backlog = backlog;
     }
 
-    public EchoServer listen() {
+    public EchoServerBind listen() {
         try {
             serverSocket = new ServerSocket(servicePort, backlog);
             System.out.println(String.format("Listen %d success..", servicePort));
@@ -100,7 +100,7 @@ public class EchoServer {
     }
 
     public static void main(String[] args) {
-        new EchoServer(8000, 1024).listen().accept();
+        new EchoServerBind(8000, 1024).listen().accept();
     }
 }
 
