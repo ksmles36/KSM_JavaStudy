@@ -2,6 +2,7 @@ package echo.bind;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -74,12 +75,24 @@ public class EchoServerBind {
         this.backlog = backlog;
     }
 
+    private EchoServerBind bind() {
+        try {
+            serverSocket = new ServerSocket();
+            InetSocketAddress address = new InetSocketAddress(servicePort);
+            serverSocket.bind(address, backlog);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this;
+    }
+
     public EchoServerBind listen() {
         try {
-            serverSocket = new ServerSocket(servicePort, backlog);
+//            serverSocket = new ServerSocket(servicePort, backlog);
             System.out.println(String.format("Listen %d success..", servicePort));
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -100,8 +113,10 @@ public class EchoServerBind {
     }
 
     public static void main(String[] args) {
-        new EchoServerBind(8000, 1024).listen().accept();
+//        new EchoServerBind(8000, 1024).listen().accept();
+        new EchoServerBind(9000, 2048).bind().listen().accept();
     }
+
 }
 
 

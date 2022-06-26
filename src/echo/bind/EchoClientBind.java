@@ -10,7 +10,7 @@ public class EchoClientBind {
 
     public static void main(String[] args) {
 
-        connectEchoServer("localhost", 8000);
+        connectEchoServer("localhost", 9000);
 
     }
 
