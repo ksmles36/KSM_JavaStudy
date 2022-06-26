@@ -4,18 +4,18 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class EchoServerBind2 {
+public class ServerBind2 {
 
     int port;
     int backlogSize;
     ServerSocket serverSocket;
 
-    public EchoServerBind2(int port, int backlogSize) {
+    public ServerBind2(int port, int backlogSize) {
         this.port = port;
         this.backlogSize = backlogSize;
     }
 
-    private EchoServerBind2 bind() {
+    private ServerBind2 bind() {
         try {
             serverSocket = new ServerSocket();
             InetSocketAddress inetSocketAddress = new InetSocketAddress(port);
@@ -29,7 +29,7 @@ public class EchoServerBind2 {
         return this;
     }
 
-    private EchoServerBind2 listen() {
+    private ServerBind2 listen() {
         try {
             System.out.println(String.format("Listen %d ...", port));
 
@@ -49,7 +49,7 @@ public class EchoServerBind2 {
     }
 
     public static void main(String[] args) {
-        new EchoServerBind2(9000, 2048).bind().listen().accept();
+        new ServerBind2(9000, 2048).bind().listen().accept();
     }
 
 }

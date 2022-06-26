@@ -3,7 +3,7 @@ package echo.bind2;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 
-public class EchoClientBind2 {
+public class ClientBind2 {
 
     public static void main(String[] args) {
 
