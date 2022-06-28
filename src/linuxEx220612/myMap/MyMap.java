@@ -32,7 +32,7 @@ public class MyMap {
         }
 
         if (cur == null)
-            return "값이 없습니다.";
+            return null;
 
         return cur.value;
     }

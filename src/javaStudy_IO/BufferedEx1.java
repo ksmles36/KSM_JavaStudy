@@ -25,13 +25,11 @@ public class BufferedEx1 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private static void useBuffered() {
         try {
-            FileInputStream fis2 = new FileInputStream("C:\\Users\\kim\\Pictures\\SampleJPGImage_5MB.jpg");
+            FileInputStream fis2 = new FileInputStream("C:\\Users\\kim\\Pictures\\SampleJPGImage_1MB.jpg");
             BufferedInputStream br = new BufferedInputStream(fis2);
             long start = System.currentTimeMillis();
             while (br.read() != -1) {
@@ -41,6 +39,5 @@ public class BufferedEx1 {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
