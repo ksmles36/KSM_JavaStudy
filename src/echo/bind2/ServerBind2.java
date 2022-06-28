@@ -25,7 +25,6 @@ public class ServerBind2 {
             e.printStackTrace();
         }
 
-
         return this;
     }
 
@@ -40,11 +39,13 @@ public class ServerBind2 {
     }
 
     private void accept() {
-        try{
-            Socket clientSocket = serverSocket.accept();
-            System.out.println("clientSocket = " + clientSocket);
-        }catch (Exception e){
-            e.printStackTrace();
+        for (; ; ) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("clientSocket = " + clientSocket);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

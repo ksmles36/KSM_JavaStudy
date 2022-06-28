@@ -14,9 +14,10 @@ public class ClientBind2 {
     private static void connectServer(String host, int port) {
         try {
             SocketChannel channel = SocketChannel.open();
-            channel.configureBlocking(true);  //논블로킹 설정
-            boolean isConnect = channel.connect(new InetSocketAddress(host, port));
-            System.out.println("isConnect = " + isConnect);
+            channel.configureBlocking(false);
+            channel.connect(new InetSocketAddress(host, port));
+            Thread.sleep(3000);
+            System.out.println("isConnect? = " + channel.isConnected());
         } catch (Exception e) {
             e.printStackTrace();
         }

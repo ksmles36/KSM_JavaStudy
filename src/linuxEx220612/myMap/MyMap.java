@@ -15,7 +15,10 @@ public class MyMap {
             cur = cur.next;
         }
 
-        cur.next = new MyMapNode(key, value);
+        MyMapNode node = new MyMapNode(key, value);
+        if(node.key.equalsIgnoreCase("") || node == null)
+            return;
+        cur.next = node;
     }
 
     public String get(String key) {
@@ -27,6 +30,9 @@ public class MyMap {
             }
             cur = cur.next;
         }
+
+        if (cur == null)
+            return "값이 없습니다.";
 
         return cur.value;
     }
