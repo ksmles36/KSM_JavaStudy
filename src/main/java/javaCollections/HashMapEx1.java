@@ -1,7 +1,6 @@
 package javaCollections;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class HashMapEx1 {
 
