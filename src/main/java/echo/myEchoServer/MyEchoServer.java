@@ -43,7 +43,7 @@ public class MyEchoServer {
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("clientSocket = " + clientSocket);
-                new MyEchoThread(port).start();
+                new Thread(new MyEchoThread(clientSocket)).start();
                 break;
 
             } catch (Exception e) {

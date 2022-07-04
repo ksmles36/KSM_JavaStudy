@@ -1,128 +1,77 @@
 package echo.myEchoServer;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 
 public class MyEchoThread extends Thread {
-    private static char CR = (char) 0x0D;
-    private static char LF = (char) 0x0A;
 
-    private int port;
+    private Socket clientSocket;
 
-    public MyEchoThread(int port) {
-        this.port = port;
+    public MyEchoThread(Socket clientSocket) {
+        this.clientSocket = clientSocket;
+        try {
+            this.clientSocket.setSoTimeout(10);
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void run() {
-        // 셀렉터 설정
-        try (Selector selector = Selector.open()) {
-            // 소켓 접속
-            SocketChannel channel = SocketChannel.open(new InetSocketAddress("localhost", port));
-            // 채널 Non-blocking 설정
-            channel.configureBlocking(false);
-            // Socket 채널을 channel에 송신 등록한다
-            channel.register(selector, SelectionKey.OP_READ, new StringBuffer());
-            // 셀렉터가 있을 경우.
-            while (selector.select() > 0) {
-                // 셀렉터 키 셋를 가져온다.
-                Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-                // 키가 있으면..
-                while (keys.hasNext()) {
-                    SelectionKey key = keys.next();
-                    //키 셋에서 제거.
-                    keys.remove();
-                    if (!key.isValid()) {
-                        continue;
+
+        int readData = 0;
+
+        try {
+            for (; ; ) {
+                InputStream inputStream = clientSocket.getInputStream();
+                ArrayList<String> strList = new ArrayList<>();
+
+                try {
+                    while ((readData = inputStream.read()) != -1) {
+                        if (readData == 0)
+                            break;
+                        strList.add(Integer.toString(readData));
                     }
-                    // 수신일 경우..
-                    if (key.isReadable()) {
-                        this.receive(selector, key);
-                        // 발신일 경우..
-                    } else if (key.isWritable()) {
-                        this.send(selector, key);
-                    }
+                } catch (SocketTimeoutException e) {}
+
+                if (readData == -1) {
+                    clientSocket.close();
+                    return;
                 }
+
+                if (strList.size() < 1) continue;
+
+                byte[] bytes = new byte[strList.size()];
+
+                for (int i = 0; i < bytes.length; i++) {
+                    String s = strList.get(i);
+                    int int1 = Integer.parseInt(s);
+                    bytes[i] = (byte) int1;
+                }
+
+                String writeStr = new String(bytes);
+
+                if(writeStr.equalsIgnoreCase("exit"))
+                    break;
+
+                System.out.println("writeStr = " + writeStr);
+
+                OutputStream outputStream = clientSocket.getOutputStream();
+                PrintWriter printWriter = new PrintWriter(outputStream);
+                printWriter.println(writeStr);
+                printWriter.flush();
+
             }
+            clientSocket.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
 
-    // 발신시 호출 함수
-    private void receive(Selector selector, SelectionKey key) {
-        try {
-            // 키 채널을 가져온다.
-            SocketChannel channel = (SocketChannel) key.channel();
-            // 채널 Non-blocking 설정
-            channel.configureBlocking(false);
-            // 소켓 취득
-            Socket socket = channel.socket();
-            // Byte 버퍼 생성
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            // ***데이터 수신***
-            int size = channel.read(buffer);
-            // ***데이터 수신***
-            if (size == -1) {
-                SocketAddress remoteAddr = socket.getRemoteSocketAddress();
-                System.out.println("Connection closed by client: " + remoteAddr);
-                // 소켓 채널 닫기
-                channel.close();
-                // 소켓 닫기
-                socket.close();
-                // 키 닫기
-                key.cancel();
-                return;
-            }
-            //ByteBuffer -> byte[]
-            byte[] data = new byte[size];
-            System.arraycopy(buffer.array(), 0, data, 0, size);
-            // StringBuffer 취득
-            StringBuffer sb = (StringBuffer) key.attachment();
-            // 버퍼에 수신된 데이터 추가
-            sb.append(new String(data));
-            // 데이터 끝이 개행 일 경우. + >
-            if (sb.length() > 3 && sb.charAt(sb.length() - 3) == CR && sb.charAt(sb.length() - 2) == LF && sb.charAt(sb.length() - 1) == '>') {
-                // 메시지를 콘솔에 표시
-                String msg = sb.toString();
-                System.out.print(msg);
-                // StringBuffer 초기화
-                sb.setLength(0);
-                // Socket 채널을 channel에 송신 등록한다
-                channel.register(selector, SelectionKey.OP_WRITE, sb);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
-
-    // 발신시 호출 함수
-    private void send(Selector selector, SelectionKey key) {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            // 키 채널을 가져온다.
-            SocketChannel channel = (SocketChannel) key.channel();
-            // 채널 Non-blocking 설정
-            channel.configureBlocking(false);
-            // 콘솔에서 값을 입력 받는다.
-            String msg = scanner.next() + "\r\n";
-            ByteBuffer buffer = ByteBuffer.wrap(msg.getBytes());
-            // ***데이터 송신***
-            channel.write(buffer);
-            // Socket 채널을 channel에 수신 등록한다
-            channel.register(selector, SelectionKey.OP_READ, key.attachment());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
