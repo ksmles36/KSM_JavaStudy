@@ -41,7 +41,7 @@ public class MyEchoServer {
             try {
                 SocketChannel client = serverSocketChannel.accept();
                 System.out.println("client = " + client);
-                new Thread(new MyEchoThread2(client)).start();
+                new Thread(new MyEchoThread(client)).start();
 
             } catch (Exception e) {
                 e.printStackTrace();

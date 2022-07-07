@@ -30,8 +30,6 @@ public class MyEchoClient {
                 System.out.print("to Server : ");
                 String inputData = sc.nextLine();
 
-
-
                 byteBuffer = charset.encode(inputData);
                 channel.write(byteBuffer);
 
