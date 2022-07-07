@@ -30,22 +30,23 @@ public class MyEchoClient {
                 System.out.print("to Server : ");
                 String inputData = sc.nextLine();
 
+
+
+                byteBuffer = charset.encode(inputData);
+                channel.write(byteBuffer);
+
+                byteBuffer = ByteBuffer.allocate(20);
+                channel.read(byteBuffer);
+                byteBuffer.flip();
+
+                String receiveStr = charset.decode(byteBuffer).toString();
+
+                System.out.println("from Server : " + receiveStr);
                 if(inputData.trim().equalsIgnoreCase("exit")) {
                     channel.close();
                     System.out.println("서버 연결 종료");
                     break;
                 }
-
-                byteBuffer = charset.encode(inputData);
-                channel.write(byteBuffer);
-
-                byteBuffer = ByteBuffer.allocate(128);
-                channel.read(byteBuffer);
-                byteBuffer.flip();
-
-                String receiveStr = charset.decode((byteBuffer)).toString();
-
-                System.out.println("from Server : " + receiveStr);
             }
         } catch (Exception e) {
             e.printStackTrace();

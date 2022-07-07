@@ -1,14 +1,14 @@
 package echo.myEchoServer;
 
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 
 public class MyEchoServer {
 
     int port;
     int backlogSize;
-    ServerSocket serverSocket;
+    ServerSocketChannel serverSocketChannel;
 
     public MyEchoServer(int port, int backlogSize) {
         this.port = port;
@@ -17,10 +17,9 @@ public class MyEchoServer {
 
     private MyEchoServer bind() {
         try {
-            serverSocket = new ServerSocket();
-            InetSocketAddress inetSocketAddress = new InetSocketAddress(port);
-            serverSocket.bind(inetSocketAddress, backlogSize);
-
+            ServerSocketChannel open = ServerSocketChannel.open();
+            open.configureBlocking(true);
+            serverSocketChannel = open.bind(new InetSocketAddress(port), backlogSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,7 +32,6 @@ public class MyEchoServer {
             System.out.println(String.format("Listen %d ...", port));
 
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return this;
     }
@@ -41,10 +39,9 @@ public class MyEchoServer {
     private void accept() {
         for (; ; ) {
             try {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("clientSocket = " + clientSocket);
-                new Thread(new MyEchoThread(clientSocket)).start();
-                break;
+                SocketChannel client = serverSocketChannel.accept();
+                System.out.println("client = " + client);
+                new Thread(new MyEchoThread2(client)).start();
 
             } catch (Exception e) {
                 e.printStackTrace();
