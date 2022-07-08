@@ -8,11 +8,11 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
-public class MyEchoThread_UseIOClass extends Thread {
+public class MyEchoThread_UseIO extends Thread {
 
     private Socket clientSocket;
 
-    public MyEchoThread_UseIOClass(Socket clientSocket) {
+    public MyEchoThread_UseIO(Socket clientSocket) {
         this.clientSocket = clientSocket;
         try {
             this.clientSocket.setSoTimeout(10);
