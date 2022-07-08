@@ -33,7 +33,7 @@ public class MyEchoThread extends Thread {
                 text = charset.decode(byteBuffer).toString();
                 System.out.println("receiveText = " + text);
 
-                if(text.equalsIgnoreCase("exit")){
+                if (text.equalsIgnoreCase("exit")) {
                     channel.close();
                     break;
                 }

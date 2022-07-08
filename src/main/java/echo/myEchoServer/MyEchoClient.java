@@ -26,7 +26,7 @@ public class MyEchoClient {
             ByteBuffer byteBuffer;
             Charset charset = Charset.forName("UTF-8");
 
-            while(true){
+            for (; ; ) {
                 System.out.print("to Server : ");
                 String inputData = sc.nextLine();
 
@@ -40,7 +40,7 @@ public class MyEchoClient {
                 String receiveStr = charset.decode(byteBuffer).toString();
 
                 System.out.println("from Server : " + receiveStr);
-                if(inputData.trim().equalsIgnoreCase("exit")) {
+                if (inputData.trim().equalsIgnoreCase("exit")) {
                     channel.close();
                     System.out.println("서버 연결 종료");
                     break;
