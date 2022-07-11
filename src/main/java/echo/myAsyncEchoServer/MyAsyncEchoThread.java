@@ -19,8 +19,7 @@ public class MyAsyncEchoThread extends Thread {
                 ByteBuffer buffer = ByteBuffer.allocate(20);
                 Future result = clientChannel.read(buffer);
 
-                while (!result.isDone()) {
-                }
+                while (!result.isDone()) {}
 
                 buffer.flip();
                 String message = new String(buffer.array()).trim();

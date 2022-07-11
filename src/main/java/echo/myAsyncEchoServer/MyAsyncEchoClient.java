@@ -22,22 +22,21 @@ public class MyAsyncEchoClient {
 
             Scanner scanner = new Scanner(System.in);
             String message;
+
             while (true) {
                 System.out.print("Message to server : ");
                 message = scanner.nextLine();
                 ByteBuffer buffer = ByteBuffer.wrap(message.getBytes());
                 Future result = client.write(buffer);
 
-                while (!result.isDone()) {
-                }
+                while (!result.isDone()) {}
 
                 if (message.equalsIgnoreCase("exit")) {
                     client.close();
                     break;
                 }
 
-//                buffer.flip();
-                Future read = client.read(buffer);
+                client.read(buffer);
                 String s = new String(buffer.array()).trim();
                 System.out.println("Message from Server : " + s);
             }
