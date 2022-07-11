@@ -1,6 +1,7 @@
 package echo.myAsyncEchoServer;
 
 import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.Future;
 
@@ -8,7 +9,7 @@ public class MyAsyncEchoServer {
 
     private int port;
     private int backlogSize;
-    private AsynchronousSocketChannel asynchronousSocketChannel;
+    private AsynchronousServerSocketChannel serverChannel;
     private InetSocketAddress inetSocketAddress;
 
     public MyAsyncEchoServer(int port, int backlogSize) {
@@ -18,9 +19,9 @@ public class MyAsyncEchoServer {
 
     private MyAsyncEchoServer bind() {
         try {
-            asynchronousSocketChannel = asynchronousSocketChannel.open();
-            inetSocketAddress = new InetSocketAddress(port);
-            asynchronousSocketChannel.bind(inetSocketAddress);
+            serverChannel = AsynchronousServerSocketChannel.open();
+            inetSocketAddress = new InetSocketAddress("localhost", port);
+            serverChannel.bind(inetSocketAddress);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,16 +39,16 @@ public class MyAsyncEchoServer {
     }
 
     private void accept() {
-//        for (; ; ) {
             try {
-                Future<Void> connect = asynchronousSocketChannel.connect(inetSocketAddress);
-                System.out.println("connect = " + connect);
-                new Thread(new MyAsyncEchoThread(connect)).start();
+                System.out.println("Waiting for client to connect...");
+                Future acceptResult = serverChannel.accept();
+                AsynchronousSocketChannel clientChannel = (AsynchronousSocketChannel) acceptResult.get();
+                System.out.println("clientChannel = " + clientChannel);
+                new Thread(new MyAsyncEchoThread(clientChannel)).start();
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//        }
     }
 
     public static void main(String[] args) {

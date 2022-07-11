@@ -1,47 +1,37 @@
 package echo.myAsyncEchoServer;
 
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
+import java.nio.channels.AsynchronousSocketChannel;
 import java.util.concurrent.Future;
 
 public class MyAsyncEchoThread extends Thread {
 
-    private Future future;
+    private AsynchronousSocketChannel clientChannel;
 
-    public MyAsyncEchoThread(Future<Void> connect) {
-        this.future = connect;
-        System.out.println("new Thread().start()");
-        try {
-//            this.clientSocket.setSoTimeout(10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public MyAsyncEchoThread(AsynchronousSocketChannel clientChannel) {
+        this.clientChannel = clientChannel;
     }
 
     @Override
     public void run() {
         try {
-            ByteBuffer byteBuffer;
+            while ((clientChannel != null) && (clientChannel.isOpen())) {
+                ByteBuffer buffer = ByteBuffer.allocate(20);
+                Future result = clientChannel.read(buffer);
 
-            for (; ; ) {
-                SocketChannel channel = (SocketChannel) future.get();
-                byteBuffer = ByteBuffer.allocate(20);
-                channel.read(byteBuffer);
-                byteBuffer.flip();
+                while (!result.isDone()) {
+                }
 
-                String text = "";
-                Charset charset = Charset.forName("UTF-8");
-                text = charset.decode(byteBuffer).toString();
-                System.out.println("receiveText = " + text);
-
-                if (text.equalsIgnoreCase("exit")) {
-                    channel.close();
+                buffer.flip();
+                String message = new String(buffer.array()).trim();
+                System.out.println("Messages from client : " + message);
+                if (message.equalsIgnoreCase("exit")) {
+                    clientChannel.close();
                     break;
                 }
 
-                byteBuffer = charset.encode(text);
-                channel.write(byteBuffer);
+                buffer.flip();
+                clientChannel.write(buffer);
             }
         } catch (Exception e) {
         }

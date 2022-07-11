@@ -3,8 +3,8 @@ package echo.myAsyncEchoServer;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
-import java.nio.charset.Charset;
 import java.util.Scanner;
+import java.util.concurrent.Future;
 
 public class MyAsyncEchoClient {
 
@@ -14,35 +14,34 @@ public class MyAsyncEchoClient {
 
     private static void connectAsyncEchoServer(String host, int port) {
         try {
-            AsynchronousSocketChannel channel = AsynchronousSocketChannel.open();
-            channel.connect(new InetSocketAddress(host, port));
-            System.out.println("서버에 연결됨");
+            AsynchronousSocketChannel client = AsynchronousSocketChannel.open();
+            Future future = client.connect(new InetSocketAddress("localhost", 9002));
+            future.get();
 
-            Scanner sc = new Scanner(System.in);
+            System.out.println("client is started : " + client.isOpen());
 
-            ByteBuffer byteBuffer;
-            Charset charset = Charset.forName("UTF-8");
+            Scanner scanner = new Scanner(System.in);
+            String message;
+            while (true) {
+                System.out.print("Message to server : ");
+                message = scanner.nextLine();
+                ByteBuffer buffer = ByteBuffer.wrap(message.getBytes());
+                Future result = client.write(buffer);
 
-            for (; ; ) {
-                System.out.print("to Server : ");
-                String inputData = sc.nextLine();
+                while (!result.isDone()) {
+                }
 
-                byteBuffer = charset.encode(inputData);
-                channel.write(byteBuffer);
-
-                byteBuffer = ByteBuffer.allocate(20);
-                channel.read(byteBuffer);
-                byteBuffer.flip();
-
-                String receiveStr = charset.decode(byteBuffer).toString();
-
-                System.out.println("from Server : " + receiveStr);
-                if (inputData.trim().equalsIgnoreCase("exit")) {
-                    channel.close();
-                    System.out.println("서버 연결 종료");
+                if (message.equalsIgnoreCase("exit")) {
+                    client.close();
                     break;
                 }
+
+//                buffer.flip();
+                Future read = client.read(buffer);
+                String s = new String(buffer.array()).trim();
+                System.out.println("Message from Server : " + s);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
