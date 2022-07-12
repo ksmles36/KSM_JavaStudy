@@ -39,6 +39,7 @@ public class MyAsyncEchoServer {
     }
 
     private void accept() {
+        for (; ; ) {
             try {
                 System.out.println("Waiting for client to connect...");
                 Future acceptResult = serverChannel.accept();
@@ -49,6 +50,7 @@ public class MyAsyncEchoServer {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
     }
 
     public static void main(String[] args) {
