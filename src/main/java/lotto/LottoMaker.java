@@ -12,7 +12,7 @@ public class LottoMaker {
         int inputNum = sc.nextInt();
 
         for (int i = 0; i < 6; i++) {
-            int num1 = new Random().nextInt(10);
+            int num1 = new Random().nextInt(100);
             int num2 = (num1 + inputNum) % 10;
 
             System.out.print(num2 + " ");
