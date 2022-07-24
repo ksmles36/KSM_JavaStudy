@@ -15,7 +15,7 @@ public class MyAsyncEchoClient2 {
     private static void connectAsyncEchoServer(String host, int port) {
         try {
             AsynchronousSocketChannel client = AsynchronousSocketChannel.open();
-            Future future = client.connect(new InetSocketAddress("localhost", 9002));
+            Future future = client.connect(new InetSocketAddress(host, port));
             future.get();
 
             System.out.println("client is started : " + client.isOpen());
