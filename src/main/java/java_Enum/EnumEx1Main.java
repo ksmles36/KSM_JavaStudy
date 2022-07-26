@@ -1,4 +1,4 @@
-package javaGenericsEnumAnnotaion;
+package java_Enum;
 
 public class EnumEx1Main {
 
