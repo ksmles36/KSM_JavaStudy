@@ -18,7 +18,7 @@ public class MyThreadEchoClient {
 
             while (true) {
 //                if (Global.queue.isEmpty()) {
-                    System.out.print("to Server : ");
+                    System.out.print("\nto Server : ");
                     Scanner sc = new Scanner(System.in);
                     String inputText = sc.nextLine();
                     Global.queue.add(inputText);
@@ -26,6 +26,7 @@ public class MyThreadEchoClient {
                     writeThread.start();
                     Thread.sleep(1000);
                     readThread.start();
+                    Thread.sleep(1000);
 //                }
             }
 

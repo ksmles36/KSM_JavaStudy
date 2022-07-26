@@ -4,7 +4,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
-public class MyThreadEchoServer {
+public class MyThreadEchoServer extends Thread {
 
     int port;
     int backlogSize;
@@ -14,6 +14,17 @@ public class MyThreadEchoServer {
         this.port = port;
         this.backlogSize = backlogSize;
     }
+
+    public void run() {
+        String text = "bye~~";
+        Global.queue.add(text);
+
+        try {
+            Thread.sleep(100);
+            serverSocketChannel.close();
+        } catch (Exception e) {}
+    }
+
 
     private MyThreadEchoServer bind() {
         try {
@@ -50,6 +61,8 @@ public class MyThreadEchoServer {
     }
 
     public static void main(String[] args) {
-        new MyThreadEchoServer(9005, 1024).bind().listen().accept();
+        MyThreadEchoServer server = new MyThreadEchoServer(9005, 1024);
+        Runtime.getRuntime().addShutdownHook(server);
+        server.bind().listen().accept();
     }
 }
