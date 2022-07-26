@@ -25,9 +25,11 @@ public class MyThreadReadThread extends Thread {
                 channel.read(buffer);
                 buffer.flip();
                 String readText = charset.decode(buffer).toString();
-                Global.queue.add(readText);
-                System.out.println("Message from Server : " + readText);
-                break;
+
+                if(!readText.isEmpty()){
+                    Global.queue.add(readText);
+                    System.out.println("Message from Server : " + readText);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -27,7 +27,7 @@ public class MyThreadWriteThread extends Thread{
                     byteBuffer = charset.encode(pollText);
                     channel.write(byteBuffer);
 
-                    if (pollText.equalsIgnoreCase("exit")) {
+                    if (pollText.equalsIgnoreCase("exit") || pollText.equalsIgnoreCase("bye~~")) {
                         channel.close();
                         break;
                     }
