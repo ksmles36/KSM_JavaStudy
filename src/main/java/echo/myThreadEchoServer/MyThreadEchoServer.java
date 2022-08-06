@@ -1,26 +1,32 @@
 package echo.myThreadEchoServer;
 
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
 
 public class MyThreadEchoServer extends Thread {
 
     int port;
     int backlogSize;
     ServerSocketChannel serverSocketChannel;
+    SocketChannel clientSocketChannel;
 
     public MyThreadEchoServer(int port, int backlogSize) {
         this.port = port;
         this.backlogSize = backlogSize;
     }
 
+    @Override
     public void run() {
-        String text = "bye~~";
-        Global.queue.add(text);
-
         try {
-            Thread.sleep(100);
+            String text = "bye~~";
+            Charset charset = Charset.forName("UTF-8");
+            ByteBuffer byteBuffer = charset.encode(text);
+            clientSocketChannel.write(byteBuffer);
+
+            Thread.sleep(10);
             serverSocketChannel.close();
         } catch (Exception e) {}
     }
@@ -50,7 +56,7 @@ public class MyThreadEchoServer extends Thread {
     private void accept() {
         for (; ; ) {
             try {
-                SocketChannel clientSocketChannel = serverSocketChannel.accept();
+                clientSocketChannel = serverSocketChannel.accept();
                 System.out.println("clientSocketChannel = " + clientSocketChannel);
                 new Thread(new MyThreadEchoThread(clientSocketChannel)).start();
 

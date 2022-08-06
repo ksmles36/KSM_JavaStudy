@@ -27,7 +27,6 @@ public class MyThreadReadThread extends Thread {
                 String readText = charset.decode(buffer).toString();
 
                 if(!readText.isEmpty()){
-                    Global.queue.add(readText);
                     System.out.println("Message from Server : " + readText);
                 }
             }

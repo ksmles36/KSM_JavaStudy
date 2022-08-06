@@ -3,6 +3,7 @@ package echo.myThreadEchoServer;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.util.Scanner;
 
 public class MyThreadWriteThread extends Thread{
 
@@ -20,23 +21,19 @@ public class MyThreadWriteThread extends Thread{
             ByteBuffer byteBuffer;
             Charset charset = Charset.forName("UTF-8");
 
-            while (true) {
-                if(!Global.queue.isEmpty()){
-                    String pollText = Global.queue.poll();
-                    System.out.print("Message to server : " + pollText);
-                    byteBuffer = charset.encode(pollText);
-                    channel.write(byteBuffer);
+            Scanner sc = new Scanner(System.in);
 
-                    if (pollText.equalsIgnoreCase("exit") || pollText.equalsIgnoreCase("bye~~")) {
-                        channel.close();
-                        break;
-                    }
-                }
+            while (true) {
+                Thread.sleep(100);
+                System.out.print("to server : ");
+                String inputData = sc.nextLine();
+
+                byteBuffer = charset.encode(inputData);
+                channel.write(byteBuffer);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
