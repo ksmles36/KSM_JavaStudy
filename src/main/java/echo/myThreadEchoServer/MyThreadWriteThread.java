@@ -1,5 +1,6 @@
 package echo.myThreadEchoServer;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
@@ -25,6 +26,7 @@ public class MyThreadWriteThread extends Thread{
 
             while (true) {
                 Thread.sleep(100);
+
                 System.out.print("to server : ");
                 String inputData = sc.nextLine();
 
@@ -32,7 +34,19 @@ public class MyThreadWriteThread extends Thread{
                 channel.write(byteBuffer);
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            if (Global.exit) {
+                System.out.println("Write 스레드를 종료합니다.");
+                System.out.println(Global.queue.poll());
+                try {
+                    channel.close();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }else {
+                e.printStackTrace();
+            }
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

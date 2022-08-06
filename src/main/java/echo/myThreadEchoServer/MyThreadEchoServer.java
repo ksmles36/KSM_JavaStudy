@@ -26,8 +26,8 @@ public class MyThreadEchoServer extends Thread {
             ByteBuffer byteBuffer = charset.encode(text);
             clientSocketChannel.write(byteBuffer);
 
-            Thread.sleep(10);
             serverSocketChannel.close();
+            System.out.println("bye 넣었어요~");
         } catch (Exception e) {}
     }
 
@@ -61,7 +61,7 @@ public class MyThreadEchoServer extends Thread {
                 new Thread(new MyThreadEchoThread(clientSocketChannel)).start();
 
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
     }

@@ -9,7 +9,7 @@ public class MyThreadEchoClient {
     public static void main(String[] args) throws InterruptedException {
         try {
             SocketChannel channel = SocketChannel.open();
-            channel.configureBlocking(true);
+            channel.configureBlocking(false);
             channel.connect(new InetSocketAddress("localhost", 9005));
 
             Thread writeThread = new Thread(new MyThreadWriteThread(channel));
@@ -18,9 +18,8 @@ public class MyThreadEchoClient {
             writeThread.start();
             readThread.start();
 
-        } catch (
-                Exception e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+//            e.printStackTrace();
         }
     }
 }

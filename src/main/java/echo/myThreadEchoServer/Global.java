@@ -6,6 +6,6 @@ import java.util.Queue;
 public class Global {
 
     public static Queue<String> queue = new LinkedList<>();
-    public static int exit = 0;
+    public static boolean exit = false;
 
 }
