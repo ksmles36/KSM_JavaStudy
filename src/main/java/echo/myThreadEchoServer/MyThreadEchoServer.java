@@ -27,7 +27,7 @@ public class MyThreadEchoServer extends Thread {
             clientSocketChannel.write(byteBuffer);
 
             serverSocketChannel.close();
-            System.out.println("bye 넣었어요~");
+            System.out.println("bye inserted !");
         } catch (Exception e) {}
     }
 

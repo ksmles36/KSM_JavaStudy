@@ -36,7 +36,7 @@ public class MyThreadWriteThread extends Thread{
 
         } catch (IOException e) {
             if (Global.exit) {
-                System.out.println("Write 스레드를 종료합니다.");
+                System.out.println("Write thread is exited");
                 System.out.println(Global.queue.poll());
                 try {
                     channel.close();

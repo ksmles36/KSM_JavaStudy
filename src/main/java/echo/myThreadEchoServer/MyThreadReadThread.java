@@ -39,8 +39,8 @@ public class MyThreadReadThread extends Thread {
                 }
             }
         } catch (IOException e) {
-            System.out.println("서버가 종료되었습니다.");
-            System.out.println("Read 스레드를 종료합니다.");
+            System.out.println("Server is exited");
+            System.out.println("Read thread is exited");
             try {
                 channel.close();
             } catch (IOException ex) {
