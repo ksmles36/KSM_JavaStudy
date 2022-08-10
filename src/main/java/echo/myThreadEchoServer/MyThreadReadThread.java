@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.util.Scanner;
 
 public class MyThreadReadThread extends Thread {
 
     SocketChannel channel;
+    Scanner sc = null;
 
-    public MyThreadReadThread(SocketChannel channel) {
+    public MyThreadReadThread(SocketChannel channel, Scanner sc) {
         this.channel = channel;
+        this.sc = sc;
     }
 
     @Override
@@ -32,20 +35,17 @@ public class MyThreadReadThread extends Thread {
                     if (!readText.isEmpty())
                         System.out.println("Message from Server : " + readText + "\n");
 
-                    if(readText.equalsIgnoreCase("bye~~")){
-                        Global.queue.add(readText);
+                    if (readText.equalsIgnoreCase("bye~~")) {
                         Global.exit = true;
+                        sc.close();
+                        channel.close();
+                        break;
                     }
                 }
             }
         } catch (IOException e) {
-            System.out.println("Server is exited");
-            System.out.println("Read thread is exited");
-            try {
-                channel.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
