@@ -61,13 +61,12 @@ public class MyThreadEchoServer extends Thread {
                 new Thread(new MyThreadEchoThread(clientSocketChannel)).start();
 
             } catch (Exception e) {
-//                e.printStackTrace();
             }
         }
     }
 
     public static void main(String[] args) {
-        MyThreadEchoServer server = new MyThreadEchoServer(9005, 1024);
+        MyThreadEchoServer server = new MyThreadEchoServer(9095, 1024);
         Runtime.getRuntime().addShutdownHook(server);
         server.bind().listen().accept();
     }

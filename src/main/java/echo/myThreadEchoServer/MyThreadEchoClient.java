@@ -10,7 +10,7 @@ public class MyThreadEchoClient {
         try {
             SocketChannel channel = SocketChannel.open();
             channel.configureBlocking(false);
-            channel.connect(new InetSocketAddress("localhost", 9005));
+            channel.connect(new InetSocketAddress("localhost", 9095));
 
             Thread writeThread = new Thread(new MyThreadWriteThread(channel));
             Thread readThread = new Thread(new MyThreadReadThread(channel));
