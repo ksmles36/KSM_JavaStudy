@@ -19,7 +19,7 @@ public class MyThreadEchoClient {
             readThread.start();
 
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

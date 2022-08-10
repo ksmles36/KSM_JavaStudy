@@ -27,11 +27,13 @@ public class MyThreadWriteThread extends Thread{
             while (true) {
                 Thread.sleep(100);
 
-                System.out.print("to server : ");
-                String inputData = sc.nextLine();
+                if(!Global.exit){
+                    System.out.print("to server : ");
+                    String inputData = sc.nextLine();
 
-                byteBuffer = charset.encode(inputData);
-                channel.write(byteBuffer);
+                    byteBuffer = charset.encode(inputData);
+                    channel.write(byteBuffer);
+                }
             }
 
         } catch (IOException e) {
