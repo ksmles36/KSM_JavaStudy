@@ -25,7 +25,7 @@ public class MyThreadEchoThread extends Thread{
                 String text = "";
                 Charset charset = Charset.forName("UTF-8");
                 text = charset.decode(byteBuffer).toString();
-                System.out.println("receiveText = " + text);
+                System.out.println("\nreceiveText = " + text);
 
                 if (text.equalsIgnoreCase("exit")) {
                     channel.close();

@@ -59,6 +59,7 @@ public class MyThreadEchoServer extends Thread {
                 clientSocketChannel = serverSocketChannel.accept();
                 System.out.println("clientSocketChannel = " + clientSocketChannel);
                 new Thread(new MyThreadEchoThread(clientSocketChannel)).start();
+                new Thread(new MyThreadServerWriteThread(clientSocketChannel)).start();
 
             } catch (Exception e) {
             }

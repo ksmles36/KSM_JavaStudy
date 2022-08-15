@@ -33,7 +33,7 @@ public class MyThreadReadThread extends Thread {
                     String readText = charset.decode(buffer).toString();
 
                     if (!readText.isEmpty())
-                        System.out.println("Message from Server : " + readText + "\n");
+                        System.out.println("\nMessage from Server : " + readText + "\n");
 
                     if (readText.equalsIgnoreCase("bye~~")) {
                         Global.exit = true;
