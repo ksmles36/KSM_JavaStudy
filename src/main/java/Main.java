@@ -3,7 +3,8 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
 
-        System.out.println(main.solution(626331));
+//        System.out.println(main.solution(626331));
+        main.testEscapeString();
     }
 
     public int solution(int num) {
@@ -29,5 +30,14 @@ public class Main {
 
         int answer = result;
         return answer;
+    }
+
+    public void testEscapeString(){
+        String str1 = "rhtmdwh_1";
+        System.out.println(str1);
+
+        String str2 = str1.replace("_", "\\_");
+        System.out.println(str2);
+
     }
 }
